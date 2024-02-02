@@ -1,0 +1,43 @@
+version: '3'
+services:
+
+  postgres:
+    container_name: postgres
+    environment:
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_DB: "postgres"
+    image: postgres:13
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - "8002:5432" 
+    
+  pgweb:
+    container_name: pgweb  
+    environment:
+      PGWEB_DATABASE_URL: "postgres://postgres:postgres@postgres:5432/postgres?sslmode=disable"
+    image: sosedoff/pgweb
+    ports:
+      - "8001:8081"
+    depends_on:
+      - postgres
+
+  nginx:
+    container_name: nginx  
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - pgweb
+    volumes:
+      - /home/fjk/git/hasin/default.conf:/etc/nginx/conf.d/default.conf
+      - /home/fjk/git/hasin/pg.taraabar.net.cert:/etc/nginx/pg.taraabar.net.cert
+      - /home/fjk/git/hasin/pg.taraabar.net.key:/etc/nginx/pg.taraabar.net.key
+      - logs:/var/log/nginx/
+ 
+volumes:
+  pg_data:
+  logs:
+
