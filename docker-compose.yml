@@ -32,9 +32,9 @@ services:
     depends_on:
       - pgweb
     volumes:
-      - /home/fjk/git/hasin/default.conf:/etc/nginx/conf.d/default.conf
-      - /home/fjk/git/hasin/pg.taraabar.net.cert:/etc/nginx/pg.taraabar.net.cert
-      - /home/fjk/git/hasin/pg.taraabar.net.key:/etc/nginx/pg.taraabar.net.key
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+      - ./pg.taraabar.net.cert:/etc/nginx/pg.taraabar.net.cert
+      - ./pg.taraabar.net.key:/etc/nginx/pg.taraabar.net.key
       - logs:/var/log/nginx/
  
 volumes:
